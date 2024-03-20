@@ -28,7 +28,7 @@ def main():
     #### Before Using the Tool 
     To ensure the effectiveness of this tool in mapping redirects, it is essential to adequately prepare the input data. This process begins with exporting data from *Screaming Frog*.
    
-    ####🐸 Data Preparation with Screaming Frog
+    #### 🐸 Data Preparation with Screaming Frog
     
     1. Run a full crawl of your website using Screaming Frog.
     2. Filter the crawl results to include only HTML pages with a status code of 200, ensuring to remove duplicate or unnecessary URLs for redirect mapping.
