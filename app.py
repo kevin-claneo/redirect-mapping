@@ -14,7 +14,7 @@ def main():
     layout="wide",
     menu_items={
         'Get Help': 'https://www.linkedin.com/in/kirchhoff-kevin/',
-        'About': "This is an app for finding the matching redirect URLs using the FAISS model."
+        'About': "This is an app for finding the matching redirect URLs using the FAISS model.  This tool is based on the original Python script [Automated Redirect Matchmaker for Site Migrations](https://colab.research.google.com/drive/1Y4msGtQf44IRzCotz8KMy0oawwZ2yIbT?usp=sharing) developed by [Daniel Emery](https://www.linkedin.com/in/dpe1/), which provides an automated approach to mapping redirects during website migrations."
     }
     )
     st.image("https://www.claneo.com/wp-content/uploads/Element-4.svg", width=600, use_column_width=None, clamp=False, channels="RGB", output_format="auto")
