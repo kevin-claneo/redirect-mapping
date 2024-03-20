@@ -55,7 +55,7 @@ def main():
     origin_file = st.file_uploader("Upload the origin.csv file", type="csv")
     destination_file = st.file_uploader("Upload the destination.csv file", type="csv")
 
-     if origin_file and destination_file:
+    if origin_file and destination_file:
         origin_df = pd.read_csv(origin_file)
         destination_df = pd.read_csv(destination_file)
 
