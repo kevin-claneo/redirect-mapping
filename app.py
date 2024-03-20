@@ -4,7 +4,7 @@ from sentence_transformers import SentenceTransformer
 import faiss
 import numpy as np
 from huggingface_hub import HfFolder
-import sys
+from stqdm import stqdm
 
 st.set_page_config(
     page_title="AI Driven Redirect Mapping",
