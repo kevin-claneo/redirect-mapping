@@ -21,7 +21,8 @@ def main():
     st.caption(":point_right: Join Claneo and support exciting clients as part of the Consulting team") 
     st.caption(':bulb: Make sure to mention that *Kevin* brought this job posting to your attention')
     st.link_button("Learn More", "https://www.claneo.com/en/career/#:~:text=Consulting")
-    st.title("Use Facebook AI Similarity Search (Faiss) to find matching redirect URLs")
+    st.title("Use Facebook AI Similarity Search (FAISS) to find matching redirect URLs")
+    st.caption('Adapted by [Kevin](https://www.linkedin.com/in/kirchhoff-kevin/)') 
     st.markdown("""
     This tool is based on the original Python script [Automated Redirect Matchmaker for Site Migrations](https://colab.research.google.com/drive/1Y4msGtQf44IRzCotz8KMy0oawwZ2yIbT?usp=sharing) developed by [Daniel Emery](https://www.linkedin.com/in/dpe1/).
     
