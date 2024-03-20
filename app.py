@@ -76,6 +76,7 @@ def main():
             similarity_scores_series = pd.Series(similarity_scores.flatten(), index=origin_df.index)
 
             # Creation of the results DataFrame
+            global results_df
             results_df = pd.DataFrame({
                 'origin_url': origin_df['Address'],
                 'matched_url': matched_url_series,
@@ -83,17 +84,17 @@ def main():
             })
 
             
-        if results_df:
-               # Convert DataFrame to CSV string
-                csv_string = results_df.to_csv(index=False)
-        
-                # Display download button
-                st.download_button(
-                    label="Download Results",
-                    data=csv_string,
-                    file_name='redirect_mapping_results.csv',
-                    mime='text/csv'
-                )
+    if results_df:
+           # Convert DataFrame to CSV string
+            csv_string = results_df.to_csv(index=False)
+    
+            # Display download button
+            st.download_button(
+                label="Download Results",
+                data=csv_string,
+                file_name='redirect_mapping_results.csv',
+                mime='text/csv'
+            )
 
 if __name__ == "__main__":
     main()
