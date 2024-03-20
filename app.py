@@ -6,6 +6,16 @@ import numpy as np
 from huggingface_hub import HfFolder
 import sys
 
+st.set_page_config(
+    page_title="AI Driven Redirect Mapping",
+    page_icon=":arrow_right_hook:",
+    layout="wide",
+    menu_items={
+        'Get Help': 'https://www.linkedin.com/in/kirchhoff-kevin/',
+        'About': "This is an app for finding the matching redirect URLs using the FAISS model. This tool is based on the original Python script [Automated Redirect Matchmaker for Site Migrations](https://colab.research.google.com/drive/1Y4msGtQf44IRzCotz8KMy0oawwZ2yIbT?usp=sharing) developed by [Daniel Emery](https://www.linkedin.com/in/dpe1/), which provides an automated approach to mapping redirects during website migrations."
+    }
+)
+
 # Define the StreamlitOutputRedirector class here
 class StreamlitOutputRedirector:
     def __init__(self, placeholder):
@@ -19,15 +29,7 @@ class StreamlitOutputRedirector:
     def flush(self):
         pass
 
-st.set_page_config(
-    page_title="AI Driven Redirect Mapping",
-    page_icon=":arrow_right_hook:",
-    layout="wide",
-    menu_items={
-        'Get Help': 'https://www.linkedin.com/in/kirchhoff-kevin/',
-        'About': "This is an app for finding the matching redirect URLs using the FAISS model. This tool is based on the original Python script [Automated Redirect Matchmaker for Site Migrations](https://colab.research.google.com/drive/1Y4msGtQf44IRzCotz8KMy0oawwZ2yIbT?usp=sharing) developed by [Daniel Emery](https://www.linkedin.com/in/dpe1/), which provides an automated approach to mapping redirects during website migrations."
-    }
-)
+
 
 # Create an empty placeholder for dynamic content
 output_placeholder = st.empty()
