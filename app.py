@@ -40,7 +40,7 @@ def main():
     3. Select the relevant columns for matching from the dropdown menu.
     4. Click the "Match URLs" button to start the matching process.
     5. Download the results directly from the interface, which will include the origin URLs, the corresponding destination URLs, and the similarity matching.
-    )
+    """)
     
     st.markdown("---")
 
