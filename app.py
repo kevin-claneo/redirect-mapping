@@ -9,8 +9,9 @@ from stqdm import stqdm # Import stqdm
 
 def main():
     st.set_page_config(
-    st.title("AI Driven Redirect Mapping")
+    page_title="AI Driven Redirect Mapping",
     page_icon=":arrow_right_hook:",
+    layout="wide",
     menu_items={
         'Get Help': 'https://www.linkedin.com/in/kirchhoff-kevin/',
         'About': "This is an app for checking your topical authority! Adapted from Lee Foot's GSC-connector check out his apps: https://leefoot.co.uk"
