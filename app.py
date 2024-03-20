@@ -12,7 +12,7 @@ st.set_page_config(
     layout="wide",
     menu_items={
         'Get Help': 'https://www.linkedin.com/in/kirchhoff-kevin/',
-        'About': "This is an app for finding the matching redirect URLs using the FAISS model. This tool is based on the original Python script [Automated Redirect Matchmaker for Site Migrations](https://colab.research.google.com/drive/1Y4msGtQf44IRzCotz8KMy0oawwZ2yIbT?usp=sharing) developed by [Daniel Emery](https://www.linkedin.com/in/dpe1/), which provides an automated approach to mapping redirects during website migrations."
+        'About': "This is an app for finding the matching redirect URLs using the FAISS model."
     }
 )
 
@@ -25,6 +25,7 @@ def main():
     ##### Before Using the Tool
     
     To ensure the effectiveness of this tool in mapping redirects, it is essential to adequately prepare the input data. This process begins with exporting data from *Screaming Frog*.
+    This tool is based on the original Python script [Automated Redirect Matchmaker for Site Migrations](https://colab.research.google.com/drive/1Y4msGtQf44IRzCotz8KMy0oawwZ2yIbT?usp=sharing) developed by [Daniel Emery](https://www.linkedin.com/in/dpe1/).
     
     ##### 👉🏼 Prepare Data with Screaming Frog
     
@@ -39,7 +40,7 @@ def main():
     2. Upload the CSV files using the provided uploaders.
     3. Select the relevant columns for matching from the dropdown menu.
     4. Click the "Match URLs" button to start the matching process.
-    5. Download the results directly from the interface, which will include the origin URLs, the corresponding destination URLs, and the similarity matching.
+    5. Download the results via "Download Results".
     """)
     
     st.markdown("---")
