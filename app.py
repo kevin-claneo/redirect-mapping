@@ -7,7 +7,8 @@ from huggingface_hub import HfFolder
 import time
 
 def main():
-    st.title("Site Migration Redirects Automator v.1")
+    st.set_page_config(
+    st.title("AI Driven Redirect Mapping")
     page_icon=":arrow_right_hook:",
     menu_items={
         'Get Help': 'https://www.linkedin.com/in/kirchhoff-kevin/',
