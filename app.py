@@ -14,7 +14,7 @@ def main():
     layout="wide",
     menu_items={
         'Get Help': 'https://www.linkedin.com/in/kirchhoff-kevin/',
-        'About': "This is an app for checking your topical authority! Adapted from Lee Foot's GSC-connector check out his apps: https://leefoot.co.uk"
+        'About': "This is an app for finding the matching redirect URLs using the FAISS model."
     }
     )
     st.image("https://www.claneo.com/wp-content/uploads/Element-4.svg", width=600, use_column_width=None, clamp=False, channels="RGB", output_format="auto")
