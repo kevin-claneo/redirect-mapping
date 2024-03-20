@@ -16,31 +16,6 @@ st.set_page_config(
     }
 )
 
-# Define the StreamlitOutputRedirector class here
-class StreamlitOutputRedirector:
-    def __init__(self, placeholder):
-        self.buffer = ""
-        self.placeholder = placeholder
-
-    def write(self, text):
-        self.buffer += text
-        self.placeholder.text(self.buffer)
-
-    def flush(self):
-        pass
-
-
-
-# Create an empty placeholder for dynamic content
-output_placeholder = st.empty()
-
-# Create an instance of the custom StreamlitOutputRedirector
-output_redirector = StreamlitOutputRedirector(output_placeholder)
-
-# Redirect stdout and stderr to the custom redirector
-sys.stdout = output_redirector
-sys.stderr = output_redirector
-
 def main():
     st.image("https://www.claneo.com/wp-content/uploads/Element-4.svg", width=600, use_column_width=None, clamp=False, channels="RGB", output_format="auto")
     st.caption(":point_right: Join Claneo and support exciting clients as part of the Consulting team") 
@@ -80,7 +55,7 @@ def main():
     origin_file = st.file_uploader("Upload the origin.csv file", type="csv")
     destination_file = st.file_uploader("Upload the destination.csv file", type="csv")
 
-    if origin_file and destination_file:
+     if origin_file and destination_file:
         origin_df = pd.read_csv(origin_file)
         destination_df = pd.read_csv(destination_file)
 
@@ -95,22 +70,18 @@ def main():
 
             # Matching of data
             model = SentenceTransformer('all-MiniLM-L6-v2')
-            origin_embeddings = model.encode(origin_df['combined_text'].tolist(), show_progress_bar=True)
-            destination_embeddings = model.encode(destination_df['combined_text'].tolist(), show_progress_bar=True)
-
-            dimension = origin_embeddings.shape[1]
-            faiss_index = faiss.IndexFlatL2(dimension)
-            faiss_index.add(destination_embeddings.astype('float32'))
 
             # Initialize progress bar
             progress_bar = st.progress(0)
 
             # Use stqdm to wrap the loop for real-time progress updates
-            for i in stqdm(range(len(origin_embeddings))):
-                distances, indices = faiss_index.search(origin_embeddings[i].reshape(1, -1).astype('float32'), k=1)
-                similarity_scores = 1 - (distances / np.max(distances))
-                # Update your data structures here based on the results
-                # This is just a placeholder for where you would update your results
+            for i in stqdm(range(len(origin_df)), desc="Encoding origin texts"):
+                origin_embeddings = model.encode(origin_df['combined_text'].iloc[i:i+1].tolist(), show_progress_bar=False)
+                progress_bar.progress((i + 1) / len(origin_df))
+
+            for i in stqdm(range(len(destination_df)), desc="Encoding destination texts"):
+                destination_embeddings = model.encode(destination_df['combined_text'].iloc[i:i+1].tolist(), show_progress_bar=False)
+                progress_bar.progress((i + 1) / len(destination_df))
 
             # Creation of series to handle different lengths
             matched_url_series = pd.Series(destination_df['Address'].iloc[indices.flatten()].values, index=origin_df.index)
