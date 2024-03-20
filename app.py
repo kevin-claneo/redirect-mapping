@@ -23,11 +23,11 @@ def main():
     st.link_button("Learn More", "https://www.claneo.com/en/career/#:~:text=Consulting")
     st.title("Use Facebook AI Similarity Search (Faiss) to find matching redirect URLs")
     st.markdown("""
-    ##### Before Using the Tool
-    
-    To ensure the effectiveness of this tool in mapping redirects, it is essential to adequately prepare the input data. This process begins with exporting data from *Screaming Frog*.
     This tool is based on the original Python script [Automated Redirect Matchmaker for Site Migrations](https://colab.research.google.com/drive/1Y4msGtQf44IRzCotz8KMy0oawwZ2yIbT?usp=sharing) developed by [Daniel Emery](https://www.linkedin.com/in/dpe1/).
     
+    ##### Before Using the Tool 
+    To ensure the effectiveness of this tool in mapping redirects, it is essential to adequately prepare the input data. This process begins with exporting data from *Screaming Frog*.
+   
     ##### 👉🏼 Prepare Data with Screaming Frog
     
     1. Run a full crawl of your website using Screaming Frog.
