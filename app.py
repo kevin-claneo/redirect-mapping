@@ -82,9 +82,11 @@ def main():
                 'similarity_score': similarity_scores_series
             })
 
-            # Convert DataFrame to CSV string
+            
+    if results_df:
+           # Convert DataFrame to CSV string
             csv_string = results_df.to_csv(index=False)
-
+    
             # Display download button
             st.download_button(
                 label="Download Results",
