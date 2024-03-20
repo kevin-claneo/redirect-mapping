@@ -73,19 +73,21 @@ def main():
             # Matching of data
             model = SentenceTransformer('all-MiniLM-L6-v2')
 
-            # Initialize progress bars
-            progress_bar_origin = st.progress(0.0)
-            progress_bar_destination = st.progress(0.0)
+            # Initialize progress bars with keys
+            progress_bar_origin = st.progress(0.0, key='progress_origin')
+            progress_bar_destination = st.progress(0.0, key='progress_destination')
 
             # Use stqdm to wrap the loop for real-time progress updates for origin texts
             for i in stqdm(range(len(origin_df)), desc="Encoding origin texts"):
                 origin_embeddings = model.encode(origin_df['combined_text'].iloc[i:i+1].tolist(), show_progress_bar=False)
-                progress_bar_origin.progress((i + 1) / len(origin_df))
+                progress_value = (i + 1) / len(origin_df)
+                progress_bar_origin.progress(progress_value)
 
             # Use stqdm to wrap the loop for real-time progress updates for destination texts
             for i in stqdm(range(len(destination_df)), desc="Encoding destination texts"):
                 destination_embeddings = model.encode(destination_df['combined_text'].iloc[i:i+1].tolist(), show_progress_bar=False)
-                progress_bar_destination.progress((i + 1) / len(destination_df))
+                progress_value = (i + 1) / len(destination_df)
+                progress_bar_destination.progress(progress_value)
 
             # Creation of series to handle different lengths
             matched_url_series = pd.Series(destination_df['Address'].iloc[indices.flatten()].values, index=origin_df.index)
