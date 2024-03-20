@@ -40,11 +40,7 @@ def main():
     3. Select the relevant columns for matching from the dropdown menu.
     4. Click the "Match URLs" button to start the matching process.
     5. Download the results directly from the interface, which will include the origin URLs, the corresponding destination URLs, and the similarity matching.
-    
-    ###### Credits
-    
-    This tool is based on the original Python script [Automated Redirect Matchmaker for Site Migrations](https://colab.research.google.com/drive/1Y4msGtQf44IRzCotz8KMy0oawwZ2yIbT?usp=sharing) developed by [Daniel Emery](https://www.linkedin.com/in/dpe1/), which provides an automated approach to mapping redirects during website migrations. The tool has been extended and integrated into a Streamlit application to improve interactivity and usability.
-    """)
+    )
     
     st.markdown("---")
 
