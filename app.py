@@ -4,8 +4,30 @@ from sentence_transformers import SentenceTransformer
 import faiss
 import numpy as np
 from huggingface_hub import HfFolder
-import time
-from stqdm import stqdm # Import stqdm
+import sys
+
+# Define the StreamlitOutputRedirector class here
+class StreamlitOutputRedirector:
+    def __init__(self, placeholder):
+        self.buffer = ""
+        self.placeholder = placeholder
+
+    def write(self, text):
+        self.buffer += text
+        self.placeholder.text(self.buffer)
+
+    def flush(self):
+        pass
+
+# Create an empty placeholder for dynamic content
+output_placeholder = st.empty()
+
+# Create an instance of the custom StreamlitOutputRedirector
+output_redirector = StreamlitOutputRedirector(output_placeholder)
+
+# Redirect stdout and stderr to the custom redirector
+sys.stdout = output_redirector
+sys.stderr = output_redirector
 
 def main():
     st.set_page_config(
