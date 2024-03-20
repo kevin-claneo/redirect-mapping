@@ -5,6 +5,7 @@ import faiss
 import numpy as np
 from huggingface_hub import HfFolder
 import time
+from stqdm import stqdm # Import stqdm
 
 def main():
     st.set_page_config(
@@ -19,46 +20,6 @@ def main():
     st.caption(":point_right: Join Claneo and support exciting clients as part of the Consulting team") 
     st.caption(':bulb: Make sure to mention that *Kevin* brought this job posting to your attention')
     st.link_button("Learn More", "https://www.claneo.com/en/career/#:~:text=Consulting")
-    st.markdown("""
-    ##### Before Using the Tool
-    
-    To ensure the effectiveness of this tool in mapping redirects, it is essential to adequately prepare the input data. This process begins with exporting data from *Screaming Frog*.
-    
-    ##### 👉🏼 Prepare Data with Screaming Frog
-    
-    1. Run a full crawl of your website using Screaming Frog.
-    2. Filter the crawl results to include only HTML pages with a status code of 200, ensuring to remove duplicate or unnecessary URLs for redirect mapping.
-    3. Export the filtered results to a CSV file. Ensure the file contains columns for the URL address, title, meta description, and other relevant information you wish to use for matching.
-    4. Repeat the process for the destination website, running a crawl of the site in staging (or the new site) and exporting the results.
-    
-    ##### 👉🏼 Instructions
-    
-    1. Prepare the CSV files containing the URLs of the original site (`origin.csv`) and the destination site (`destination.csv`) following the instructions above.
-    2. Upload the CSV files using the provided uploaders.
-    3. Select the relevant columns for matching from the dropdown menu.
-    4. Click the "Match URLs" button to start the matching process.
-    5. Download the results directly from the interface, which will include the origin URLs, the corresponding destination URLs, and the similarity matching.
-    
-    ###### Credits
-    
-    This tool is based on the original Python script [Automated Redirect Matchmaker for Site Migrations](https://colab.research.google.com/drive/1Y4msGtQf44IRzCotz8KMy0oawwZ2yIbT?usp=sharing) developed by [Daniel Emery](https://www.linkedin.com/in/dpe1/), which provides an automated approach to mapping redirects during website migrations. The tool has been extended and integrated into a Streamlit application to improve interactivity and usability.
-    """)
-    
-    st.markdown("---")
-    
-    # Field for entering the Hugging Face token
-    hf_token = str(st.secrets["installed"]["hf_token"])
-import streamlit as st
-import pandas as pd
-from sentence_transformers import SentenceTransformer
-import faiss
-import numpy as np
-from huggingface_hub import HfFolder
-import time
-from stqdm import stqdm # Import stqdm
-
-def main():
-    st.title("Site Migration Redirects Automator v.1")
     st.markdown("""
     ##### Before Using the Tool
     
