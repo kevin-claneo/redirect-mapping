@@ -83,17 +83,17 @@ def main():
             })
 
             
-    if results_df:
-           # Convert DataFrame to CSV string
-            csv_string = results_df.to_csv(index=False)
-    
-            # Display download button
-            st.download_button(
-                label="Download Results",
-                data=csv_string,
-                file_name='redirect_mapping_results.csv',
-                mime='text/csv'
-            )
+        if results_df:
+               # Convert DataFrame to CSV string
+                csv_string = results_df.to_csv(index=False)
+        
+                # Display download button
+                st.download_button(
+                    label="Download Results",
+                    data=csv_string,
+                    file_name='redirect_mapping_results.csv',
+                    mime='text/csv'
+                )
 
 if __name__ == "__main__":
     main()
