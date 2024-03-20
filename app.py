@@ -21,7 +21,7 @@ def main():
     st.caption(":point_right: Join Claneo and support exciting clients as part of the Consulting team") 
     st.caption(':bulb: Make sure to mention that *Kevin* brought this job posting to your attention')
     st.link_button("Learn More", "https://www.claneo.com/en/career/#:~:text=Consulting")
-    st.title("Use Facebook AI Similarity Search (Faiss) to find matching URLs")
+    st.title("Use Facebook AI Similarity Search (Faiss) to find matching redirect URLs")
     st.markdown("""
     ##### Before Using the Tool
     
