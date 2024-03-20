@@ -58,40 +58,40 @@ def main():
     destination_file = st.file_uploader("Upload the destination.csv file", type="csv")
 
     if origin_file and destination_file:
-    origin_df = pd.read_csv(origin_file)
-    destination_df = pd.read_csv(destination_file)
-
-    # Identification of common columns
-    common_columns = list(set(origin_df.columns) & set(destination_df.columns))
-    selected_columns = st.multiselect("Select columns to use for similarity matching:", common_columns)
-
-    if st.button("Match URLs") and selected_columns:
-        # Preprocessing of data
-        origin_df['combined_text'] = origin_df[selected_columns].apply(lambda row: ' '.join(row.values.astype(str)), axis=1)
-        destination_df['combined_text'] = destination_df[selected_columns].apply(lambda row: ' '.join(row.values.astype(str)), axis=1)
-
-        # Matching of data
-        model = SentenceTransformer('all-MiniLM-L6-v2')
-
-        # Initialize progress bars
-        progress_bar_origin = st.progress(0.0)
-        progress_bar_destination = st.progress(0.0)
-
-        # Use stqdm to wrap the loop for real-time progress updates for origin texts
-        for i in stqdm(range(len(origin_df)), desc="Encoding origin texts"):
-            origin_embeddings = model.encode(origin_df['combined_text'].iloc[i:i+1].tolist(), show_progress_bar=False)
-            progress_value = (i + 1) / len(origin_df)
-            progress_bar_origin.progress(progress_value)
-
-        # Use stqdm to wrap the loop for real-time progress updates for destination texts
-        for i in stqdm(range(len(destination_df)), desc="Encoding destination texts"):
-            destination_embeddings = model.encode(destination_df['combined_text'].iloc[i:i+1].tolist(), show_progress_bar=False)
-            progress_value = (i + 1) / len(destination_df)
-            progress_bar_destination.progress(progress_value)
-            
-            # Creation of series to handle different lengths
-            matched_url_series = pd.Series(destination_df['Address'].iloc[indices.flatten()].values, index=origin_df.index)
-            similarity_scores_series = pd.Series(similarity_scores.flatten(), index=origin_df.index)
+        origin_df = pd.read_csv(origin_file)
+        destination_df = pd.read_csv(destination_file)
+    
+        # Identification of common columns
+        common_columns = list(set(origin_df.columns) & set(destination_df.columns))
+        selected_columns = st.multiselect("Select columns to use for similarity matching:", common_columns)
+    
+        if st.button("Match URLs") and selected_columns:
+            # Preprocessing of data
+            origin_df['combined_text'] = origin_df[selected_columns].apply(lambda row: ' '.join(row.values.astype(str)), axis=1)
+            destination_df['combined_text'] = destination_df[selected_columns].apply(lambda row: ' '.join(row.values.astype(str)), axis=1)
+    
+            # Matching of data
+            model = SentenceTransformer('all-MiniLM-L6-v2')
+    
+            # Initialize progress bars
+            progress_bar_origin = st.progress(0.0)
+            progress_bar_destination = st.progress(0.0)
+    
+            # Use stqdm to wrap the loop for real-time progress updates for origin texts
+            for i in stqdm(range(len(origin_df)), desc="Encoding origin texts"):
+                origin_embeddings = model.encode(origin_df['combined_text'].iloc[i:i+1].tolist(), show_progress_bar=False)
+                progress_value = (i + 1) / len(origin_df)
+                progress_bar_origin.progress(progress_value)
+    
+            # Use stqdm to wrap the loop for real-time progress updates for destination texts
+            for i in stqdm(range(len(destination_df)), desc="Encoding destination texts"):
+                destination_embeddings = model.encode(destination_df['combined_text'].iloc[i:i+1].tolist(), show_progress_bar=False)
+                progress_value = (i + 1) / len(destination_df)
+                progress_bar_destination.progress(progress_value)
+                
+                # Creation of series to handle different lengths
+                matched_url_series = pd.Series(destination_df['Address'].iloc[indices.flatten()].values, index=origin_df.index)
+                similarity_scores_series = pd.Series(similarity_scores.flatten(), index=origin_df.index)
 
             # Creation of the results DataFrame
             results_df = pd.DataFrame({
