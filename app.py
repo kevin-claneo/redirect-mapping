@@ -57,17 +57,6 @@ def main():
     origin_file = st.file_uploader("Upload the origin.csv file", type="csv")
     destination_file = st.file_uploader("Upload the destination.csv file", type="csv")
 
-import streamlit as st
-import pandas as pd
-from sentence_transformers import SentenceTransformer
-import faiss
-import numpy as np
-from huggingface_hub import HfFolder
-from stqdm import stqdm # Import stqdm
-
-def main():
-    # Your existing setup code here
-
     if origin_file and destination_file:
         origin_df = pd.read_csv(origin_file)
         destination_df = pd.read_csv(destination_file)
