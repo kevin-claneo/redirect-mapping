@@ -20,14 +20,18 @@ st.set_page_config(
 # Initialize the SentenceTransformer model outside the functions
 model = SentenceTransformer('all-MiniLM-L6-v2')
 
-def encode_texts(df, selected_columns):
+def encode_texts(df, selected_columns, progress_bar):
     """
     Encodes the texts in the given DataFrame using the SentenceTransformer model.
+    Updates the progress bar as the encoding progresses.
     """
     df['combined_text'] = df[selected_columns].apply(lambda row: ' '.join(row.values.astype(str)), axis=1)
-    embeddings = model.encode(df['combined_text'].tolist(), show_progress_bar=False)
+    for i in stqdm(range(len(df)), desc="Encoding texts", st_container=progress_bar):
+        embeddings = model.encode(df['combined_text'].iloc[i:i+1].tolist(), show_progress_bar=False)
+        progress_value = (i + 1) / len(df)
+        progress_bar.progress(progress_value)
     return embeddings
-
+    
 def show_dataframe(report):
     """
     Shows a preview of the first 100 rows of the report DataFrame in an expandable section.
@@ -90,7 +94,7 @@ def main():
     origin_file = st.file_uploader("Upload the origin.csv file", type="csv")
     destination_file = st.file_uploader("Upload the destination.csv file", type="csv")
 
-    if origin_file and destination_file:
+        if origin_file and destination_file:
         origin_df = pd.read_csv(origin_file)
         destination_df = pd.read_csv(destination_file)
 
@@ -99,11 +103,19 @@ def main():
         selected_columns = st.multiselect("Select columns to use for similarity matching:", common_columns)
 
         if st.button("Match URLs") and selected_columns:
-            # Preprocessing of data
-            origin_embeddings = encode_texts(origin_df, selected_columns)
+            # Initialize progress bars
+            progress_bar_origin = st.progress(0.0)
+            progress_bar_destination = st.progress(0.0)
+
+            # Encode origin texts
+            origin_embeddings = encode_texts(origin_df, selected_columns, progress_bar_origin)
             st.write("Encoding of origin texts is complete.")
 
-            destination_embeddings = encode_texts(destination_df, selected_columns)
+            # Reset the progress bar for destination texts
+            progress_bar_destination.progress(0.0)
+
+            # Encode destination texts
+            destination_embeddings = encode_texts(destination_df, selected_columns, progress_bar_destination)
             st.write("Encoding of destination texts is complete.")
 
             # Create a FAISS index for the destination embeddings
@@ -130,6 +142,7 @@ def main():
                 show_dataframe(report)
                 st.write(len(report))
                 download_csv_link(report)
+                
 
 if __name__ == "__main__":
     main()
