@@ -95,30 +95,27 @@ def main():
             # Matching of data
             model = SentenceTransformer('all-MiniLM-L6-v2')
             
-            progress_bar_origin =  None
-            
+            # Initialize progress bars
+            progress_bar_origin = st.progress(0.0)
+            progress_bar_destination = st.progress(0.0)
+
             # Use stqdm to wrap the loop for real-time progress updates for origin texts
-            for i in stqdm(range(len(origin_df)), mininterval=0.5, desc="Encoding origin texts"):
+            for i in stqdm(range(len(origin_df)), mininterval=0.5, desc="Encoding origin texts", st_container=progress_bar_origin):
                 origin_embeddings = model.encode(origin_df['combined_text'].iloc[i:i+1].tolist(), show_progress_bar=False)
                 progress_value = (i + 1) / len(origin_df)
-                if progress_bar_origin is not None:
-                    progress_bar_origin.progress(progress_value)
-                else:
-                    progress_bar_origin = st.progress(0.0)
+                progress_bar_origin.progress(progress_value)
 
+            # Display text after origin texts encoding is complete
+            st.write("Encoding of origin texts is complete.")
 
-            progress_value  = 0
-            progress_bar_destination = None
-            
             # Use stqdm to wrap the loop for real-time progress updates for destination texts
-            for i in stqdm(range(len(destination_df)), mininterval=0.5, desc="Encoding destination texts"):
+            for i in stqdm(range(len(destination_df)), mininterval=0.5, desc="Encoding destination texts", st_container=progress_bar_destination):
                 destination_embeddings = model.encode(destination_df['combined_text'].iloc[i:i+1].tolist(), show_progress_bar=False)
                 progress_value = (i + 1) / len(destination_df)
                 progress_bar_destination.progress(progress_value)
-                if progress_bar_destination is not None:
-                    progress_bar_destination.progress(progress_value)
-                else:
-                    progress_bar_destination = st.progress(0.0)
+
+            # Display text after destination texts encoding is complete
+            st.write("Encoding of destination texts is complete.")
             
             # After encoding and before creating the results DataFrame
             
