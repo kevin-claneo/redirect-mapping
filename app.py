@@ -17,13 +17,23 @@ st.set_page_config(
         'About': "This is an app for finding the matching redirect URLs using the FAISS model."
     }
 )
+# Initialize the SentenceTransformer model outside the functions
+model = SentenceTransformer('all-MiniLM-L6-v2')
+
+def encode_texts(df, selected_columns):
+    """
+    Encodes the texts in the given DataFrame using the SentenceTransformer model.
+    """
+    df['combined_text'] = df[selected_columns].apply(lambda row: ' '.join(row.values.astype(str)), axis=1)
+    embeddings = model.encode(df['combined_text'].tolist(), show_progress_bar=False)
+    return embeddings
 
 def show_dataframe(report):
     """
     Shows a preview of the first 100 rows of the report DataFrame in an expandable section.
     """
     with st.expander("Preview the First 100 Rows"):
-        st.dataframe(report.head(DF_PREVIEW_ROWS))
+        st.dataframe(report.head(100)) # Assuming DF_PREVIEW_ROWS is 100
 
 def download_csv_link(report):
     """
@@ -34,7 +44,7 @@ def download_csv_link(report):
 
     csv = to_csv(report)
     b64_csv = base64.b64encode(csv.encode()).decode()
-    href = f'<a href="data:file/csv;base64,{b64_csv}" download="redirect_mapping_results.csv</a>'
+    href = f'<a href="data:file/csv;base64,{b64_csv}" download="redirect_mapping_results.csv">Download Results</a>'
     st.markdown(href, unsafe_allow_html=True)
 
 def main():
@@ -48,6 +58,7 @@ def main():
     This tool is based on the original Python script [Automated Redirect Matchmaker for Site Migrations](https://colab.research.google.com/drive/1Y4msGtQf44IRzCotz8KMy0oawwZ2yIbT?usp=sharing) developed by [Daniel Emery](https://www.linkedin.com/in/dpe1/).
     
     ## Before Using the Tool 
+      🚨 **Please Note:** Streamlit Cloud does not support long runtimes of scripts. For larger redirect mappings +50.000 URLs on both ends, please use Streamlit on your local machine.
     To ensure the effectiveness of this tool in mapping redirects, it is essential to adequately prepare the input data. This process begins with exporting data from *Screaming Frog*.
    
     #### 🐸 Data Preparation with Screaming Frog
@@ -82,44 +93,19 @@ def main():
     if origin_file and destination_file:
         origin_df = pd.read_csv(origin_file)
         destination_df = pd.read_csv(destination_file)
-    
+
         # Identification of common columns
         common_columns = list(set(origin_df.columns) & set(destination_df.columns))
         selected_columns = st.multiselect("Select columns to use for similarity matching:", common_columns)
-    
+
         if st.button("Match URLs") and selected_columns:
             # Preprocessing of data
-            origin_df['combined_text'] = origin_df[selected_columns].apply(lambda row: ' '.join(row.values.astype(str)), axis=1)
-            destination_df['combined_text'] = destination_df[selected_columns].apply(lambda row: ' '.join(row.values.astype(str)), axis=1)
-    
-            # Matching of data
-            model = SentenceTransformer('all-MiniLM-L6-v2')
-            
-            # Initialize progress bars
-            progress_bar_origin = st.progress(0.0)
-            progress_bar_destination = st.progress(0.0)
-
-            # Use stqdm to wrap the loop for real-time progress updates for origin texts
-            for i in stqdm(range(len(origin_df)), mininterval=0.5, desc="Encoding origin texts"):
-                origin_embeddings = model.encode(origin_df['combined_text'].iloc[i:i+1].tolist(), show_progress_bar=False)
-                progress_value = (i + 1) / len(origin_df)
-                progress_bar_origin.progress(progress_value)
-
-            # Display text after origin texts encoding is complete
+            origin_embeddings = encode_texts(origin_df, selected_columns)
             st.write("Encoding of origin texts is complete.")
 
-            # Reset the progress bar for destination texts
-            progress_bar_destination.progress(0.0)
-
-            # Use stqdm to wrap the loop for real-time progress updates for destination texts
-            for i in stqdm(range(len(destination_df)), mininterval=0.5, desc="Encoding destination texts"):
-                destination_embeddings = model.encode(destination_df['combined_text'].iloc[i:i+1].tolist(), show_progress_bar=False)
-                progress_value = (i + 1) / len(destination_df)
-                progress_bar_destination.progress(progress_value)
-
-            # Display text after destination texts encoding is complete
+            destination_embeddings = encode_texts(destination_df, selected_columns)
             st.write("Encoding of destination texts is complete.")
-            
+
             # Create a FAISS index for the destination embeddings
             dimension = origin_embeddings.shape[1]
             faiss_index = faiss.IndexFlatL2(dimension)
