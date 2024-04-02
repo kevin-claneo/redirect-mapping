@@ -1,4 +1,6 @@
 import streamlit as st
+from streamlit_elements import Elements
+import base64
 import pandas as pd
 from sentence_transformers import SentenceTransformer
 import faiss
@@ -15,6 +17,25 @@ st.set_page_config(
         'About': "This is an app for finding the matching redirect URLs using the FAISS model."
     }
 )
+
+def show_dataframe(report):
+    """
+    Shows a preview of the first 100 rows of the report DataFrame in an expandable section.
+    """
+    with st.expander("Preview the First 100 Rows"):
+        st.dataframe(report.head(DF_PREVIEW_ROWS))
+
+def download_csv_link(report):
+    """
+    Generates and displays a download link for the report DataFrame in CSV format.
+    """
+    def to_csv(df):
+        return df.to_csv(index=False, encoding='utf-8-sig')
+
+    csv = to_csv(report)
+    b64_csv = base64.b64encode(csv.encode()).decode()
+    href = f'<a href="data:file/csv;base64,{b64_csv}" download="redirect_mapping_results.csv</a>'
+    st.markdown(href, unsafe_allow_html=True)
 
 def main():
     st.image("https://www.claneo.com/wp-content/uploads/Element-4.svg", width=600, use_column_width=None, clamp=False, channels="RGB", output_format="auto")
@@ -106,23 +127,16 @@ def main():
             similarity_scores_series = pd.Series(similarity_scores.flatten(), index=origin_df.index)
             
             # Creation of the results DataFrame
-            results_df = pd.DataFrame({
+            report = pd.DataFrame({
                 'origin_url': origin_df['Address'],
                 'matched_url': matched_url_series,
                 'similarity_score': similarity_scores_series
             })
             
-            # Convert DataFrame to CSV string
-            csv_string = results_df.to_csv(index=False)
-            
-            # Display download button
-            if st.button("Download Results"):
-                st.download_button(
-                    label="Download Results",
-                    data=csv_string,
-                    file_name='redirect_mapping_results.csv',
-                    mime='text/csv'
-                )
+            if report is not None: 
+                show_dataframe(report)
+                st.write(len(report))
+                download_csv_link(report)
 
 if __name__ == "__main__":
     main()
