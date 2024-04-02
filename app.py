@@ -108,6 +108,9 @@ def main():
             # Display text after origin texts encoding is complete
             st.write("Encoding of origin texts is complete.")
 
+            # Reset the progress bar for destination texts
+            progress_bar_destination.progress(0.0)
+
             # Use stqdm to wrap the loop for real-time progress updates for destination texts
             for i in stqdm(range(len(destination_df)), mininterval=0.5, desc="Encoding destination texts", st_container=progress_bar_destination):
                 destination_embeddings = model.encode(destination_df['combined_text'].iloc[i:i+1].tolist(), show_progress_bar=False)
@@ -116,8 +119,6 @@ def main():
 
             # Display text after destination texts encoding is complete
             st.write("Encoding of destination texts is complete.")
-            
-            # After encoding and before creating the results DataFrame
             
             # Create a FAISS index for the destination embeddings
             dimension = origin_embeddings.shape[1]
