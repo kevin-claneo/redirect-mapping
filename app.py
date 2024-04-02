@@ -102,7 +102,10 @@ def main():
             for i in stqdm(range(len(origin_df)), mininterval=0.5, desc="Encoding origin texts"):
                 origin_embeddings = model.encode(origin_df['combined_text'].iloc[i:i+1].tolist(), show_progress_bar=False)
                 progress_value = (i + 1) / len(origin_df)
-                progress_bar_origin.progress(progress_value)
+                if progress_bar_origin is not None:
+                    progress_bar_origin.progress(progress_value)
+                else:
+                    progress_bar_origin = st.progress(0.0)
 
 
             progress_value  = 0
@@ -112,6 +115,10 @@ def main():
                 destination_embeddings = model.encode(destination_df['combined_text'].iloc[i:i+1].tolist(), show_progress_bar=False)
                 progress_value = (i + 1) / len(destination_df)
                 progress_bar_destination.progress(progress_value)
+                if progress_bar_destination is not None:
+                    progress_bar_destination.progress(progress_value)
+                else:
+                    progress_bar_destination = st.progress(0.0)
             
             # After encoding and before creating the results DataFrame
             
