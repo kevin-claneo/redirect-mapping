@@ -26,7 +26,7 @@ def encode_texts(df, selected_columns, progress_bar):
     Updates the progress bar as the encoding progresses.
     """
     df['combined_text'] = df[selected_columns].apply(lambda row: ' '.join(row.values.astype(str)), axis=1)
-    for i in stqdm(range(len(df)), desc="Encoding texts", st_container=progress_bar):
+    for i in stqdm(range(len(df)), desc="Encoding texts"):
         embeddings = model.encode(df['combined_text'].iloc[i:i+1].tolist(), show_progress_bar=False)
         progress_value = (i + 1) / len(df)
         progress_bar.progress(progress_value)
