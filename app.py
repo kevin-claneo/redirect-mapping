@@ -95,8 +95,6 @@ def main():
             # Matching of data
             model = SentenceTransformer('all-MiniLM-L6-v2')
             
-            # Initialize a single progress bar
-            progress_bar_origin = st.progress(0.0)
 
             # Use stqdm to wrap the loop for real-time progress updates for origin texts
             for i in stqdm(range(len(origin_df)), mininterval=0.5, desc="Encoding origin texts"):
@@ -111,7 +109,7 @@ def main():
             progress_value  = 0
             
             # Use stqdm to wrap the loop for real-time progress updates for destination texts
-            for i in stqdm(range(len(destination_df)), mininterval=0.5, desc="Encoding destination texts", st_container=progress_bar):
+            for i in stqdm(range(len(destination_df)), mininterval=0.5, desc="Encoding destination texts"):
                 destination_embeddings = model.encode(destination_df['combined_text'].iloc[i:i+1].tolist(), show_progress_bar=False)
                 progress_value = (i + 1) / len(destination_df)
                 progress_bar_destination.progress(progress_value)
