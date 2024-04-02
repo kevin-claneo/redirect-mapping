@@ -111,7 +111,7 @@ def main():
             progress_value  = 0
             
             # Use stqdm to wrap the loop for real-time progress updates for destination texts
-            for i in stqdm(range(len(destination_df)), mininterval=0.5, desc="Encoding destination texts"):
+            for i in stqdm(range(len(destination_df)), mininterval=0.5, desc="Encoding destination texts", st_container=progress_bar):
                 destination_embeddings = model.encode(destination_df['combined_text'].iloc[i:i+1].tolist(), show_progress_bar=False)
                 progress_value = (i + 1) / len(destination_df)
                 progress_bar_destination.progress(progress_value)
