@@ -1,5 +1,5 @@
 streamlit
-streamlit-elements
+streamlit-elements==0.0.2
 sentence-transformers
 faiss-cpu
 stqdm
