@@ -123,11 +123,10 @@ def main():
             faiss_index = faiss.IndexFlatL2(dimension)
             faiss_index.add(destination_embeddings.astype('float32'))
 
-            print("Origin embeddings shape:", origin_embeddings.shape)
-            print("Destination embeddings shape:", destination_embeddings.shape)
+
            # Search for the nearest neighbors
             distances, indices = faiss_index.search(origin_embeddings.astype('float32'), k=1)
-            print("Indices shape after search:", indices.shape)
+
             flattened_indices = indices.flatten()
             similarity_scores = 1 - (distances / np.max(distances))
             
