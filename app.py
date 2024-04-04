@@ -125,12 +125,15 @@ def main():
             
            # Search for the nearest neighbors
             distances, indices = faiss_index.search(origin_embeddings.astype('float32'), k=1)
-
             print("Indices shape after search:", indices.shape)
+            flattened_indices = indices.flatten()
             similarity_scores = 1 - (distances / np.max(distances))
             
             # Creation of series to handle different lengths
-            matched_url_series = pd.Series(destination_df['Address'].iloc[indices.flatten()].values, index=origin_df.index)
+            matched_urls = destination_df['Address'].iloc[flattened_indices].values
+
+            # Create the series with the matched URLs
+            matched_url_series = pd.Series(matched_urls, index=origin_df.index)
             similarity_scores_series = pd.Series(similarity_scores.flatten(), index=origin_df.index)
             
             # Creation of the results DataFrame
