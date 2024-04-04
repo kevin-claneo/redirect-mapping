@@ -119,10 +119,12 @@ def main():
             st.write("Encoding of destination texts is complete.")
 
             # Create a FAISS index for the destination embeddings
-            dimension = origin_embeddings.shape[1]
+            dimension = destination_embeddings.shape[1]
             faiss_index = faiss.IndexFlatL2(dimension)
             faiss_index.add(destination_embeddings.astype('float32'))
-            
+
+            print("Origin embeddings shape:", origin_embeddings.shape)
+            print("Destination embeddings shape:", destination_embeddings.shape)
            # Search for the nearest neighbors
             distances, indices = faiss_index.search(origin_embeddings.astype('float32'), k=1)
             print("Indices shape after search:", indices.shape)
