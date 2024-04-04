@@ -133,6 +133,7 @@ def main():
             # Creation of series to handle different lengths
             matched_urls = destination_df['Address'].iloc[flattened_indices].values
 
+            show_df(destination_df)
             # Create the series with the matched URLs
             matched_url_series = pd.Series(matched_urls, index=origin_df.index)
             similarity_scores_series = pd.Series(similarity_scores.flatten(), index=origin_df.index)
@@ -145,7 +146,7 @@ def main():
             })
             
             if report is not None: 
-                show_dataframe(report.head(100))
+                show_dataframe(report)
                 st.write(len(report))
                 download_csv_link(report)
                 
