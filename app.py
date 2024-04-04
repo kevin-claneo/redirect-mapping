@@ -144,7 +144,7 @@ def main():
             })
             
             if report is not None: 
-                show_dataframe(report)
+                show_dataframe(report.head(100))
                 st.write(len(report))
                 download_csv_link(report)
                 
