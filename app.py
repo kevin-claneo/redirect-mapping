@@ -128,9 +128,9 @@ def main():
             similarity_scores = 1 - (distances / np.max(distances))
             
             # Debugging: Print shapes and values
-            print("Indices shape:", indices.shape)
-            print("Destination Address shape:", destination_df['Address'].shape)
-            print("Origin index shape:", origin_df.index.shape)
+            st.write("Indices shape:", indices.shape)
+            st.write("Destination Address shape:", destination_df['Address'].shape)
+            st.write("Origin index shape:", origin_df.index.shape)
             
             # Creation of series to handle different lengths
             matched_url_series = pd.Series(destination_df['Address'].iloc[indices.flatten()].values, index=origin_df.index)
