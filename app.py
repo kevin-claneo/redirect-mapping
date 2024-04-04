@@ -26,10 +26,13 @@ def encode_texts(df, selected_columns, progress_bar):
     Updates the progress bar as the encoding progresses.
     """
     df['combined_text'] = df[selected_columns].apply(lambda row: ' '.join(row.values.astype(str)), axis=1)
+    embeddings_list = [] # Initialize an empty list to accumulate embeddings
     for i in stqdm(range(len(df)), desc="Encoding texts"):
-        embeddings = model.encode(df['combined_text'].iloc[i:i+1].tolist(), show_progress_bar=False)
+        embedding = model.encode(df['combined_text'].iloc[i:i+1].tolist(), show_progress_bar=False)
+        embeddings_list.append(embedding[0]) # Append the embedding to the list
         progress_value = (i + 1) / len(df)
         progress_bar.progress(progress_value)
+    embeddings = np.array(embeddings_list) # Convert the list of embeddings into a NumPy array
     return embeddings
     
 def show_dataframe(report):
@@ -133,7 +136,6 @@ def main():
             # Creation of series to handle different lengths
             matched_urls = destination_df['Address'].iloc[flattened_indices].values
 
-            show_dataframe(destination_df)
             # Create the series with the matched URLs
             matched_url_series = pd.Series(matched_urls, index=origin_df.index)
             similarity_scores_series = pd.Series(similarity_scores.flatten(), index=origin_df.index)
