@@ -56,11 +56,9 @@ def download_csv_link(report):
 
 def main():
     st.image("https://www.claneo.com/wp-content/uploads/Element-4.svg", width=600, use_column_width=None, clamp=False, channels="RGB", output_format="auto")
-    st.caption(":point_right: Join Claneo and support exciting clients as part of the Consulting team") 
-    st.caption(':bulb: Make sure to mention that *Kevin* brought this job posting to your attention')
-    st.link_button("Learn More", "https://www.claneo.com/en/career/#:~:text=Consulting")
-    st.title("Use Facebook AI Similarity Search (FAISS) to find matching redirect URLs")
     st.caption('Adapted by [Kevin](https://www.linkedin.com/in/kirchhoff-kevin/)') 
+    st.title("Use Facebook AI Similarity Search (FAISS) to find matching redirect URLs")
+    
     st.markdown("""
     This tool is based on the original Python script [Automated Redirect Matchmaker for Site Migrations](https://colab.research.google.com/drive/1Y4msGtQf44IRzCotz8KMy0oawwZ2yIbT?usp=sharing) developed by [Daniel Emery](https://www.linkedin.com/in/dpe1/).
     
@@ -149,7 +147,6 @@ def main():
             
             if report is not None: 
                 show_dataframe(report)
-                st.write(len(report))
                 download_csv_link(report)
                 
 
