@@ -1,5 +1,4 @@
 import streamlit as st
-from streamlit_elements import Elements
 import base64
 import pandas as pd
 from sentence_transformers import SentenceTransformer
@@ -40,7 +39,7 @@ def show_dataframe(report):
     Shows a preview of the first 100 rows of the report DataFrame in an expandable section.
     """
     with st.expander("Preview the First 100 Rows"):
-        st.dataframe(report.head(100)) # Assuming DF_PREVIEW_ROWS is 100
+        st.dataframe(report.head(100))
 
 def download_csv_link(report):
     """
