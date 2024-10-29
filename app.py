@@ -57,12 +57,12 @@ def main():
     st.image("https://www.claneo.com/wp-content/uploads/Element-4.svg", width=600, use_column_width=None, clamp=False, channels="RGB", output_format="auto")
     st.caption('Adapted by [Kevin](https://www.linkedin.com/in/kirchhoff-kevin/)') 
     st.title("Use Facebook AI Similarity Search (FAISS) to find matching redirect URLs")
+    st.markdown("""
+        This tool is based on the original Python script [Automated Redirect Matchmaker for Site Migrations](https://colab.research.google.com/drive/1Y4msGtQf44IRzCotz8KMy0oawwZ2yIbT?usp=sharing) developed by [Daniel Emery](https://www.linkedin.com/in/dpe1/).
+        """)
     with st.expander("Before using this tool",icon="🚨"):
         st.markdown("""
-        This tool is based on the original Python script [Automated Redirect Matchmaker for Site Migrations](https://colab.research.google.com/drive/1Y4msGtQf44IRzCotz8KMy0oawwZ2yIbT?usp=sharing) developed by [Daniel Emery](https://www.linkedin.com/in/dpe1/).
-        
-        ## Before Using the Tool 
-          🚨 **Please Note:** Streamlit Cloud does not support long runtimes of scripts. For larger redirect mappings +20.000 URLs on both ends, please use Streamlit on your local machine.
+        **Please Note:** Streamlit Cloud does not support long runtimes of scripts. For larger redirect mappings +20.000 URLs on both ends, please use Streamlit on your local machine.
         To ensure the effectiveness of this tool in mapping redirects, it is essential to adequately prepare the input data. This process begins with exporting data from *Screaming Frog*.
        
         #### 🐸 Data Preparation with Screaming Frog
